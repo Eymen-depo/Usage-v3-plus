@@ -119,10 +119,9 @@ const botConfigs = [
   }
 ];
 
-// Bot başlatma işlevi
 function startBot(config, index) {
   const bot = mineflayer.createBot({
-    host: "play.reborncraft.pw",
+    host: "bottesting12.aternos.me",
     port: 25565,
     username: config.username,
     password: config.password,
@@ -130,51 +129,68 @@ function startBot(config, index) {
   });
 
   bot.on('spawn', () => {
-    console.log(`${config.username} bağlandı!`);
+    console.log(`${config.username} sunucuya bağlandı.`);
     bot.chat(`/login ${config.password}`);
     console.log(`[${config.username}] Otomatik giriş yapıldı.`);
 
-    // Mesaj gönderme
-    config.messages.forEach((messageObj) => {
-      setInterval(() => {
-        bot.chat(messageObj.text);
-        console.log(`[${config.username}] Gönderildi: ${messageObj.text}`);
-      }, messageObj.delay * 1000);
-    });
+    // Mesaj gönderme döngüsü
+    if (config.messages) {
+      config.messages.forEach((messageObj) => {
+        messageObj.intervalId = setInterval(() => {
+          if (bot.player) {
+            bot.chat(messageObj.text);
+            console.log(`[${config.username}] Mesaj gönderildi: ${messageObj.text}`);
+          }
+        }, messageObj.delay * 1000);
+      });
+    }
 
-    // Anti-AFK
+    // Anti-AFK hareket
     if (config.antiAfk) {
-      setInterval(() => {
-        const directions = ['forward', 'back', 'left', 'right'];
-        const randomDirection = directions[Math.floor(Math.random() * directions.length)];
-        bot.setControlState(randomDirection, true);
-        setTimeout(() => bot.setControlState(randomDirection, false), 500); // 0.5 saniye hareket
-        console.log(`[${config.username}] Anti-AFK hareket: ${randomDirection}`);
+      config.antiAfkIntervalId = setInterval(() => {
+        if (bot.player) {
+          const directions = ['forward', 'back', 'left', 'right'];
+          const randomDirection = directions[Math.floor(Math.random() * directions.length)];
+          bot.setControlState(randomDirection, true);
+          setTimeout(() => bot.setControlState(randomDirection, false), 500);
+          console.log(`[${config.username}] Anti-AFK hareket yaptı: ${randomDirection}`);
+        }
       }, config.antiAfkDelay);
     }
   });
 
   bot.on('end', () => {
-    console.log(`${config.username} bağlantısı kesildi, yeniden bağlanacak...`);
-    setTimeout(() => startBot(config, index), 7000); // 7 saniye sonra yeniden dene
+    console.log(`${config.username} bağlantısı kesildi. Yeniden bağlanacak...`);
+    clearIntervals(config);
+    setTimeout(() => startBot(config, index), 7000); // Yeniden bağlanma sırasını koruma
   });
 
   bot.on('error', (err) => {
-    console.error(`[${config.username}] Hata: ${err.message}`);
+    console.error(`[${config.username}] Hata oluştu: ${err.message}`);
+    clearIntervals(config);
+    setTimeout(() => startBot(config, index), 7000); // Yeniden bağlanma sırasını koruma
   });
 
-  bots[index] = bot; // Botu listeye ekle
+  bots[index] = bot;
 }
 
-// Botların sırasıyla başlaması
-function startBotsSequentially() {
-  botConfigs.forEach((config, index) => {
-    setTimeout(() => {
-      console.log(`[${config.username}] Bağlanmayı deniyor...`);
-      startBot(config, index);
-    }, index * 7000); // 7 saniye aralık
-  });
+function clearIntervals(config) {
+  if (config.messages) {
+    config.messages.forEach((messageObj) => {
+      if (messageObj.intervalId) {
+        clearInterval(messageObj.intervalId);
+      }
+    });
+  }
+  if (config.antiAfkIntervalId) {
+    clearInterval(config.antiAfkIntervalId);
+  }
 }
+
+// Tüm botları başlatma
+botConfigs.forEach((config, index) => {
+  setTimeout(() => startBot(config, index), index * 7000); // İlk başlatmada sıralı giriş
+});
 
 // Web sunucusu
 app.get('/', (req, res) => {
@@ -189,7 +205,7 @@ app.listen(port, () => {
   console.log(`Web sunucusu ${port} portunda çalışıyor.`);
 });
 
-// Uygulamanın çökmesini önle
+// Uygulamanın çökmesini önleme
 process.on('uncaughtException', (err) => {
   console.error('Beklenmeyen bir hata yakalandı:', err);
 });
@@ -197,6 +213,3 @@ process.on('uncaughtException', (err) => {
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Yakalanmamış bir vaatte hata oluştu:', promise, 'Sebep:', reason);
 });
-
-// Tüm botları sırayla başlat
-startBotsSequentially();
