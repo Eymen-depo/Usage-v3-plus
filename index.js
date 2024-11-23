@@ -24,7 +24,7 @@ const botConfigs = [
     messages: [
       { text: "/skyblock", delay: 12 },
       { text: "/is go Anchorette", delay: 18 },
-      { text: "", delay: 25 }
+      { text: "/", delay: 25 }
     ],
     antiAfk: true,
     antiAfkDelay: 12000
@@ -57,7 +57,7 @@ const botConfigs = [
     messages: [
       { text: "/skyblock", delay: 14 },
       { text: "/is go MujluOralet", delay: 19 },
-      { text: "", delay: 26 }
+      { text: "/", delay: 26 }
     ],
     antiAfk: true,
     antiAfkDelay: 14000
@@ -68,7 +68,7 @@ const botConfigs = [
     messages: [
       { text: "/skyblock", delay: 13 },
       { text: "/is go StoneGoldAzo", delay: 17 },
-      { text: "", delay: 21 }
+      { text: "/", delay: 21 }
     ],
     antiAfk: true,
     antiAfkDelay: 17000
