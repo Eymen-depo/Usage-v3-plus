@@ -121,7 +121,7 @@ const botConfigs = [
 
 function startBot(config) {
   const bot = mineflayer.createBot({
-    host: "Bottesting12.aternos.me",
+    host: "play.reborncraft.pw",
     port: 25565,
     username: config.username,
     password: config.password,
