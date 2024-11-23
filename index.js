@@ -13,7 +13,7 @@ const botConfigs = [
     messages: [
       { text: "/skyblock", delay: 10 },
       { text: "/is go FlavioQuinto", delay: 15 },
-      { text: "/", delay: 20 } // 3. mesaj rastgele bir komut
+      { text: "/", delay: 20 }
     ],
     antiAfk: true,
     antiAfkDelay: 10000
@@ -119,9 +119,10 @@ const botConfigs = [
   }
 ];
 
-function startBot(config) {
+// Bot başlatma işlevi
+function startBot(config, index) {
   const bot = mineflayer.createBot({
-    host: "play.reborncraft.pw",
+    host: "bottesting12.aternos.me",
     port: 25565,
     username: config.username,
     password: config.password,
@@ -155,18 +156,25 @@ function startBot(config) {
 
   bot.on('end', () => {
     console.log(`${config.username} bağlantısı kesildi, yeniden bağlanacak...`);
-    setTimeout(() => startBot(config), Math.random() * 5000 + 5000);
+    setTimeout(() => startBot(config, index), 7000); // 7 saniye sonra yeniden dene
   });
 
   bot.on('error', (err) => {
     console.error(`[${config.username}] Hata: ${err.message}`);
   });
 
-  bots.push(bot);
+  bots[index] = bot; // Botu listeye ekle
 }
 
-// Tüm botları başlat
-botConfigs.forEach(startBot);
+// Botların sırasıyla başlaması
+function startBotsSequentially() {
+  botConfigs.forEach((config, index) => {
+    setTimeout(() => {
+      console.log(`[${config.username}] Bağlanmayı deniyor...`);
+      startBot(config, index);
+    }, index * 7000); // 7 saniye aralık
+  });
+}
 
 // Web sunucusu
 app.get('/', (req, res) => {
@@ -189,3 +197,6 @@ process.on('uncaughtException', (err) => {
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Yakalanmamış bir vaatte hata oluştu:', promise, 'Sebep:', reason);
 });
+
+// Tüm botları sırayla başlat
+startBotsSequentially();
