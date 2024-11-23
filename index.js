@@ -1,127 +1,191 @@
 const mineflayer = require('mineflayer');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
-let botConnected = false; // Bot bağlantı durumu
+let bots = []; // Tüm botların listesi
 
-// Bot yapılandırma ayarları
-const config = {
-  botAccount: {
+// Botların yapılandırmaları
+const botConfigs = [
+  {
+    username: "TostMakinesi",
+    password: "fake3",
+    messages: [
+      { text: "/skyblock", delay: 10 },
+      { text: "/is go FlavioQuinto", delay: 15 },
+      { text: "/", delay: 20 } // 3. mesaj rastgele bir komut
+    ],
+    antiAfk: true,
+    antiAfkDelay: 10000
+  },
+  {
+    username: "MuzluSupangle",
+    password: "fake3",
+    messages: [
+      { text: "/skyblock", delay: 12 },
+      { text: "/is go Anchorette", delay: 18 },
+      { text: "", delay: 25 }
+    ],
+    antiAfk: true,
+    antiAfkDelay: 12000
+  },
+  {
+    username: "iWadlessV2",
+    password: "fake3",
+    messages: [
+      { text: "/skyblock", delay: 10 },
+      { text: "/", delay: 15 },
+      { text: "/home 1", delay: 20 }
+    ],
+    antiAfk: true,
+    antiAfkDelay: 15000
+  },
+  {
     username: "MujluPuding",
     password: "fake3",
-    type: "legacy"
+    messages: [
+      { text: "/skyblock", delay: 11 },
+      { text: "/is go Oyuntozu5151", delay: 16 },
+      { text: "/", delay: 22 }
+    ],
+    antiAfk: true,
+    antiAfkDelay: 16000
   },
-  server: {
-    ip: "play.reborncraft.pw",
+  {
+    username: "MujluOralet",
+    password: "fake3",
+    messages: [
+      { text: "/skyblock", delay: 14 },
+      { text: "/is go MujluOralet", delay: 19 },
+      { text: "", delay: 26 }
+    ],
+    antiAfk: true,
+    antiAfkDelay: 14000
+  },
+  {
+    username: "PuddingMaster",
+    password: "fake3",
+    messages: [
+      { text: "/skyblock", delay: 13 },
+      { text: "/is go StoneGoldAzo", delay: 17 },
+      { text: "", delay: 21 }
+    ],
+    antiAfk: true,
+    antiAfkDelay: 17000
+  },
+  {
+    username: "TeaKettle",
+    password: "fake3",
+    messages: [
+      { text: "/opskyblock", delay: 15 },
+      { text: "/is go PlumSalmon60868", delay: 20 },
+      { text: "/", delay: 28 }
+    ],
+    antiAfk: true,
+    antiAfkDelay: 19000
+  },
+  {
+    username: "HatayLahmacunu",
+    password: "fake3",
+    messages: [
+      { text: "/skyblock", delay: 10 },
+      { text: "/is go zobalabobala", delay: 14 },
+      { text: "/", delay: 22 }
+    ],
+    antiAfk: true,
+    antiAfkDelay: 20000
+  },
+  {
+    username: "HataySabunu",
+    password: "fake3",
+    messages: [
+      { text: "/skyblock", delay: 11 },
+      { text: "/is go MasterCoolBank", delay: 18 },
+      { text: "/", delay: 25 }
+    ],
+    antiAfk: true,
+    antiAfkDelay: 18000
+  },
+  {
+    username: "KusuraBakmaReis",
+    password: "fake3",
+    messages: [
+      { text: "/skyblock", delay: 12 },
+      { text: "/is go XBsyale", delay: 20 },
+      { text: "/home 1", delay: 30 }
+    ],
+    antiAfk: true,
+    antiAfkDelay: 15000
+  }
+];
+
+function startBot(config) {
+  const bot = mineflayer.createBot({
+    host: "Bottesting12.aternos.me",
     port: 25565,
-    version: "1.19.3"
-  },
-  utils: {
-    autoAuth: {
-      enabled: true,
-      password: "fake3"
-    },
-    chatMessages: {
-      enabled: true,
-      messages: [      
-        { text: "/is accept EymanBey", delay: 10 },
-        { text: "/skyblock", delay: 5 },
-        { text: "/is go Oyuntozu5151", delay: 10 },                  
-        { text: "/home 1", delay: 15 }
-      ]
-    },
-    antiAfk: {
-      enabled: true
-    },
-    autoReconnect: true,
-    autoReconnectDelay: 5000
-  },
-  position: {
-    enabled: true,
-    x: 100,
-    y: 64,
-    z: 100
-  },
-  chatLog: true
-};
-
-let bot;
-
-// Bot başlatma fonksiyonu
-function startBot() {
-  bot = mineflayer.createBot({
-    host: config.server.ip,
-    port: config.server.port,
-    username: config.botAccount.username,
-    password: config.botAccount.password,
-    version: config.server.version,
-    auth: config.botAccount.type
+    username: config.username,
+    password: config.password,
+    version: false // Otomatik sürüm belirleme
   });
 
-  // Bot olay dinleyicileri
   bot.on('spawn', () => {
-    console.log('Bot bağlandı!');
-    botConnected = true;
+    console.log(`${config.username} bağlandı!`);
+    bot.chat(`/login ${config.password}`);
+    console.log(`[${config.username}] Otomatik giriş yapıldı.`);
 
-    if (config.utils.autoAuth.enabled) {
-      bot.chat(`/login ${config.utils.autoAuth.password}`);
-      console.log(`Otomatik giriş: /login ${config.utils.autoAuth.password}`);
-    }
-
-    // Mesaj gönderme işlevi
-    if (config.utils.chatMessages.enabled) {
-      config.utils.chatMessages.messages.forEach((messageObj, index) => {
-        setInterval(() => {
-          bot.chat(messageObj.text);
-          console.log(`Gönderildi: ${messageObj.text}`);
-        }, messageObj.delay * 1000);
-      });
-    }
-
-    // Anti-AFK işlevi
-    if (config.utils.antiAfk.enabled) {
+    // Mesaj gönderme
+    config.messages.forEach((messageObj) => {
       setInterval(() => {
-        const moveDirections = ['forward', 'back', 'left', 'right'];
-        const randomDirection = moveDirections[Math.floor(Math.random() * moveDirections.length)];
-        
-        // Rastgele bir yön seç ve kısa süre hareket et
+        bot.chat(messageObj.text);
+        console.log(`[${config.username}] Gönderildi: ${messageObj.text}`);
+      }, messageObj.delay * 1000);
+    });
+
+    // Anti-AFK
+    if (config.antiAfk) {
+      setInterval(() => {
+        const directions = ['forward', 'back', 'left', 'right'];
+        const randomDirection = directions[Math.floor(Math.random() * directions.length)];
         bot.setControlState(randomDirection, true);
-        setTimeout(() => {
-          bot.setControlState(randomDirection, false);
-        }, 500); // 0.5 saniye hareket et
-        
-        console.log(`Bot ${randomDirection} yönüne hareket etti.`);
-      }, 10000); // Her 10 saniyede bir hareket et
+        setTimeout(() => bot.setControlState(randomDirection, false), 500); // 0.5 saniye hareket
+        console.log(`[${config.username}] Anti-AFK hareket: ${randomDirection}`);
+      }, config.antiAfkDelay);
     }
   });
 
-  // Sohbet mesajlarını dinleme
-  bot.on('message', (message) => {
-    console.log(message.toString());
+  bot.on('end', () => {
+    console.log(`${config.username} bağlantısı kesildi, yeniden bağlanacak...`);
+    setTimeout(() => startBot(config), Math.random() * 5000 + 5000);
   });
 
-  // Bağlantı kesildiğinde yeniden bağlanma
-  bot.on('end', () => {
-    console.log('Bot bağlantısı kesildi. Yeniden bağlanacak...');
-    botConnected = false;
-    setTimeout(startBot, config.utils.autoReconnectDelay); // Botu yeniden başlat
+  bot.on('error', (err) => {
+    console.error(`[${config.username}] Hata: ${err.message}`);
   });
+
+  bots.push(bot);
 }
 
-// Botu başlat
-startBot();
+// Tüm botları başlat
+botConfigs.forEach(startBot);
 
 // Web sunucusu
 app.get('/', (req, res) => {
-  if (botConnected) {
-    res.send('Bot başarıyla bağlandı ve sohbetleri dinliyor.');
-  } else {
-    res.send('Bot bağlantı kurmaya çalışıyor...');
-  }
+  const status = bots.map((bot, index) => ({
+    bot: botConfigs[index].username,
+    status: bot && bot.player ? "Bağlı" : "Bağlı değil"
+  }));
+  res.json(status);
 });
 
-// Sunucu bağlantısını başlat
 app.listen(port, () => {
-  console.log(`Sunucu ${port} numaralı bağlantı noktasında yürütülüyor.`);
+  console.log(`Web sunucusu ${port} portunda çalışıyor.`);
+});
+
+// Uygulamanın çökmesini önle
+process.on('uncaughtException', (err) => {
+  console.error('Beklenmeyen bir hata yakalandı:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Yakalanmamış bir vaatte hata oluştu:', promise, 'Sebep:', reason);
 });
