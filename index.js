@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 let bots = []; // Tüm botların listesi
+let botQueue = []; // Botları sırayla bekletecek kuyruk
 
 // Botların yapılandırmaları
 const botConfigs = [
@@ -34,7 +35,7 @@ const botConfigs = [
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
-      { text: "/is go iWadless", delay: 15 },
+      { text: "/", delay: 15 },
       { text: "/home 1", delay: 20 }
     ],
     antiAfk: true,
@@ -174,23 +175,18 @@ function startBot(config, index) {
   bots[index] = bot;
 }
 
-function clearIntervals(config) {
-  if (config.messages) {
-    config.messages.forEach((messageObj) => {
-      if (messageObj.intervalId) {
-        clearInterval(messageObj.intervalId);
-      }
-    });
+// Botların sırasıyla 10 saniye arayla girmesini sağla
+function startBotQueue() {
+  let queueIndex = 0;
+  function processQueue() {
+    if (queueIndex < botConfigs.length) {
+      startBot(botConfigs[queueIndex], queueIndex);
+      queueIndex++;
+      setTimeout(processQueue, 10000); // Her bot 10 saniye arayla başlar
+    }
   }
-  if (config.antiAfkIntervalId) {
-    clearInterval(config.antiAfkIntervalId);
-  }
+  processQueue();
 }
-
-// Tüm botları başlatma
-botConfigs.forEach((config, index) => {
-  setTimeout(() => startBot(config, index), index * 7000); // İlk başlatmada sıralı giriş
-});
 
 // Web sunucusu
 app.get('/', (req, res) => {
@@ -213,3 +209,6 @@ process.on('uncaughtException', (err) => {
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Yakalanmamış bir vaatte hata oluştu:', promise, 'Sebep:', reason);
 });
+
+// Botları başlatma kuyruğundan
+startBotQueue();
