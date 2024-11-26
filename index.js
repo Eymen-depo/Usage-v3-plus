@@ -11,7 +11,7 @@ const botConfigs = [
     username: "TostMakinesi",
     password: "fake3",
     messages: [
-      { text: "/skyblock", delay: 10 },
+      { text: "/skyblock", delay: 2 },
       { text: "/is go FlavioQuinto", delay: 15 },
       { text: "/", delay: 20 }
     ],
@@ -22,7 +22,7 @@ const botConfigs = [
     username: "MuzluSupangle",
     password: "fake3",
     messages: [
-      { text: "/skyblock", delay: 12 },
+      { text: "/skyblock", delay: 2 },
       { text: "/is go Anchorette", delay: 18 },
       { text: "/", delay: 25 }
     ],
@@ -33,7 +33,7 @@ const botConfigs = [
     username: "iWadlessV2",
     password: "fake3",
     messages: [
-      { text: "/skyblock", delay: 10 },
+      { text: "/skyblock", delay: 2 },
       { text: "/is go iWadless", delay: 15 },
       { text: "/home 1", delay: 20 }
     ],
@@ -44,7 +44,7 @@ const botConfigs = [
     username: "MujluPuding",
     password: "fake3",
     messages: [
-      { text: "/skyblock", delay: 11 },
+      { text: "/skyblock", delay: 2 },
       { text: "/is go Oyuntozu5151", delay: 16 },
       { text: "/", delay: 22 }
     ],
@@ -55,7 +55,7 @@ const botConfigs = [
     username: "MujluOralet",
     password: "fake3",
     messages: [
-      { text: "/skyblock", delay: 14 },
+      { text: "/skyblock", delay: 2 },
       { text: "/is go MujluOralet", delay: 19 },
       { text: "/", delay: 26 }
     ],
@@ -66,7 +66,7 @@ const botConfigs = [
     username: "PuddingMaster",
     password: "fake3",
     messages: [
-      { text: "/skyblock", delay: 13 },
+      { text: "/skyblock", delay: 2 },
       { text: "/is go StoneGoldAzo", delay: 17 },
       { text: "/", delay: 21 }
     ],
@@ -77,7 +77,7 @@ const botConfigs = [
     username: "TeaKettle",
     password: "fake3",
     messages: [
-      { text: "/opskyblock", delay: 15 },
+      { text: "/opskyblock", delay: 2 },
       { text: "/is go PlumSalmon60868", delay: 20 },
       { text: "/", delay: 28 }
     ],
@@ -88,7 +88,7 @@ const botConfigs = [
     username: "HatayLahmacunu",
     password: "fake3",
     messages: [
-      { text: "/skyblock", delay: 10 },
+      { text: "/skyblock", delay: 2 },
       { text: "/is go zobalabobala", delay: 14 },
       { text: "/", delay: 22 }
     ],
@@ -99,7 +99,7 @@ const botConfigs = [
     username: "HataySabunu",
     password: "fake3",
     messages: [
-      { text: "/skyblock", delay: 11 },
+      { text: "/skyblock", delay: 2 },
       { text: "/is go MasterCoolBank", delay: 18 },
       { text: "/", delay: 25 }
     ],
@@ -110,7 +110,7 @@ const botConfigs = [
     username: "KusuraBakmaReis",
     password: "fake3",
     messages: [
-      { text: "/skyblock", delay: 12 },
+      { text: "/skyblock", delay: 2 },
       { text: "/is go XBsyale", delay: 20 },
       { text: "/home 1", delay: 30 }
     ],
