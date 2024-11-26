@@ -34,7 +34,7 @@ const botConfigs = [
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 10 },
-      { text: "/", delay: 15 },
+      { text: "/is go iWadless", delay: 15 },
       { text: "/home 1", delay: 20 }
     ],
     antiAfk: true,
@@ -121,7 +121,7 @@ const botConfigs = [
 
 function startBot(config, index) {
   const bot = mineflayer.createBot({
-    host: "bottesting12.aternos.me",
+    host: "play.reborncraft.pw",
     port: 25565,
     username: config.username,
     password: config.password,
