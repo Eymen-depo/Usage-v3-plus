@@ -9,7 +9,7 @@ let botQueue = []; // Botları sırayla bekletecek kuyruk
 // Botların yapılandırmaları
 const botConfigs = [
   {
-    username: "TostMakinesi",
+    username: "MuzluSupangle",
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
@@ -20,7 +20,7 @@ const botConfigs = [
     antiAfkDelay: 10000
   },
   {
-    username: "MuzluSupangle",
+    username: "ToastWizard",
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
@@ -31,7 +31,7 @@ const botConfigs = [
     antiAfkDelay: 12000
   },
   {
-    username: "iWadlessV2",
+    username: "Dukkan",
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
@@ -42,7 +42,7 @@ const botConfigs = [
     antiAfkDelay: 15000
   },
   {
-    username: "MujluPuding",
+    username: "",
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
@@ -53,7 +53,7 @@ const botConfigs = [
     antiAfkDelay: 16000
   },
   {
-    username: "MujluOralet",
+    username: "",
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
@@ -64,7 +64,7 @@ const botConfigs = [
     antiAfkDelay: 14000
   },
   {
-    username: "PuddingMaster",
+    username: "",
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
@@ -75,7 +75,7 @@ const botConfigs = [
     antiAfkDelay: 17000
   },
   {
-    username: "TeaKettle",
+    username: "",
     password: "fake3",
     messages: [
       { text: "/opskyblock", delay: 2 },
@@ -86,7 +86,7 @@ const botConfigs = [
     antiAfkDelay: 19000
   },
   {
-    username: "HatayLahmacunu",
+    username: "",
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
@@ -97,7 +97,7 @@ const botConfigs = [
     antiAfkDelay: 20000
   },
   {
-    username: "HataySabunu",
+    username: "",
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
@@ -108,7 +108,7 @@ const botConfigs = [
     antiAfkDelay: 18000
   },
   {
-    username: "KusuraBakmaReis",
+    username: "",
     password: "fake3",
     messages: [
       { text: "/skyblock", delay: 2 },
